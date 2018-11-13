@@ -5,27 +5,28 @@ import {
     StyleSheet,
     FlatList,
     View,
-    Text,
     ActivityIndicator
 } from 'react-native';
-
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
+import * as Actions from '../../actions/homeActions'; //Import your actions
+import Timeline from './Timeline';
 
-import * as Actions from '../../actions'; //Import your actions
+
 
 class Home extends Component {
+
     constructor(props) {
         super(props);
-
         this.state = {
+        
         };
 
         this.renderItem = this.renderItem.bind(this);
     }
-
+    
     componentDidMount() {
-        this.props.getData(); //call our action
+        this.props.getTweetsTimeline(); //call our action
     }
 
     render() {
@@ -48,29 +49,20 @@ class Home extends Component {
         }
     }
 
-    renderItem({item, index}) {
+    renderItem({item}) {
         return (
-            <View style={styles.row}>
-                <Text style={styles.title}>
-                    {(parseInt(index) + 1)}{". "}{item.title}
-                </Text>
-                <Text style={styles.description}>
-                    {item.description}
-                </Text>
-            </View>
+            <Timeline tweet={item} />
         )
     }
 };
-
-
 
 // The function takes data from the app current state,
 // and insert/links it into the props of our component.
 // This function makes Redux know that this component needs to be passed a piece of the state
 function mapStateToProps(state, props) {
     return {
-        loading: state.dataReducer.loading,
-        data: state.dataReducer.data
+        loading: state.homeReducer.loading,
+        data: state.homeReducer.data
     }
 }
 
@@ -91,20 +83,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
     },
-
-    row:{
-        borderBottomWidth: 1,
-        borderColor: "#ccc",
-        padding: 10
-    },
-
-    title:{
-        fontSize: 15,
-        fontWeight: "600"
-    },
-
-    description:{
-        marginTop: 5,
-        fontSize: 14,
-    }
 });
