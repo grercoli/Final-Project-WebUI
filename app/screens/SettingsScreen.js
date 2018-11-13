@@ -3,18 +3,18 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import Home from '../components/home/home' //Import the component file
 
-const HomeScreen = ({ navigation }) => (
+const SettingsScreen = ({ navigation }) => (
   <View style={styles.container}>
-    <Home />
+    <Text>Desde Settings Screen</Text>
   </View>
 );
 
-HomeScreen.propTypes = {
+SettingsScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-HomeScreen.navigationOptions = {
-  title: 'Home',
+SettingsScreen.navigationOptions = {
+  title: 'Settings',
 };
 
 const styles = StyleSheet.create({
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SettingsScreen;
