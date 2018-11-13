@@ -3,18 +3,18 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import Home from '../components/home/home' //Import the component file
 
-const HomeScreen = ({ navigation }) => (
+const SearchScreen = ({ navigation }) => (
   <View style={styles.container}>
-    <Home />
+    <Text>Desde Search Screen</Text>
   </View>
 );
 
-HomeScreen.propTypes = {
+SearchScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-HomeScreen.navigationOptions = {
-  title: 'Home',
+SearchScreen.navigationOptions = {
+  title: 'Search',
 };
 
 const styles = StyleSheet.create({
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SearchScreen;
