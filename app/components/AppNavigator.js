@@ -11,6 +11,8 @@ import Routes from '../config/routes';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import Home from './home/home';
+import TweetScreen from '../screens/TweetScreen';
 
 const middleware = createReactNavigationReduxMiddleware(
   'root',
@@ -48,11 +50,11 @@ const RootNavigator = createMaterialTopTabNavigator({
       inactiveTintColor: 'gray',
       style: {
         backgroundColor: '#fff',
-        padding:20,
+        justifyContent: 'center',
       },
       iconStyle: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: 50,
+        height: 50,
       },
       indicatorStyle: {
         backgroundColor: '#000',
@@ -60,7 +62,17 @@ const RootNavigator = createMaterialTopTabNavigator({
     }
 });
 
-const AppWithNavigationState = reduxifyNavigator(RootNavigator, 'root');
+const TweetStack = createStackNavigator({
+  Home: {
+    screen: RootNavigator,
+    navigationOptions: ({ navigation }) => ({
+      title: `Gwitter`,
+    }),
+  },
+  Tweet: TweetScreen
+});
+
+const AppWithNavigationState = reduxifyNavigator(TweetStack, 'root');
 
 const mapStateToProps = state => ({
   state: state.nav,
@@ -69,4 +81,4 @@ const mapStateToProps = state => ({
 const AppNavigator = connect(mapStateToProps)(AppWithNavigationState);
 
 
-export { RootNavigator, AppNavigator, middleware };
+export { TweetStack, AppNavigator, middleware };

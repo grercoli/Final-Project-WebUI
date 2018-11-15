@@ -1,4 +1,4 @@
-import {GET_TWEETS, GET_MORETWEETS, REFRESH_TIMELINE} from './types';
+import {GET_TWEETS, GET_MORETWEETS, REFRESH_TIMELINE, GET_TIMELINE} from './types';
 
 const ip = 'http://192.168.0.229:8080'; //192.168.0.229
 

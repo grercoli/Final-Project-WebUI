@@ -19,7 +19,13 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        
+            filter:{
+                NotVerified:false,
+                NotFollow:false,
+                NotDefaultProfile:false,
+                NotLink:false,
+                NotTruncated:false
+            }
         };
         
         this.renderItem = this.renderItem.bind(this);
@@ -70,6 +76,26 @@ class Home extends Component {
                 navigation={this.props.navigation} 
             />
         )
+        
+        if (
+                
+          (!this.state.filter.NotVerified == item.user.verified)  
+            && 
+          (this.state.filter.NotFollow == item.user.following) 
+            && 
+          (!this.state.filter.NotDefaultProfile == item.user.default_profile) 
+            &&
+          (!this.state.filter.NotLink == (item.url.lenght > 0)) 
+            && 
+          (!this.state.filter.NotTruncated == item.truncated)
+
+         )
+         {
+           return (
+             <Timeline tweet={item} />
+           )
+         }
+            
     }
 };
 
