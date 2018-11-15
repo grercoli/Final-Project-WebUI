@@ -1,10 +1,9 @@
-
 import { NavigationActions } from 'react-navigation';
-import { RootNavigator } from '../components/AppNavigator';
+import { TweetStack } from '../components/AppNavigator';
 
-const firstAction = RootNavigator.router.getActionForPathAndParams('Home');
-const tempNavState = RootNavigator.router.getStateForAction(firstAction);
-const initialNavState = RootNavigator.router.getStateForAction(
+const firstAction = TweetStack.router.getActionForPathAndParams('Home');
+const tempNavState = TweetStack.router.getStateForAction(firstAction);
+const initialNavState = TweetStack.router.getStateForAction(
   tempNavState
 );
 
@@ -13,25 +12,24 @@ const NavReducer = (state = initialNavState, action) => {
   let nextState;
   switch (action.type) {
     case 'Home':
-      nextState = RootNavigator.router.getStateForAction(
+      nextState = TweetStack.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Home' }),
         state
       );
       break;
-    case 'Categories':
-      nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Categories' }),
+    case 'Tweet':
+      nextState = TweetStack.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Tweet', params: action.payload}),
         state
       );
       break;
     default:
-      nextState = RootNavigator.router.getStateForAction(action, state);
+      nextState = TweetStack.router.getStateForAction(action, state);
       break;
   }
 
   // Simply return the original `state` if `nextState` is null or undefined.
   return nextState || state;
 }
-
 
 export default NavReducer

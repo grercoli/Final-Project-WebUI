@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import Home from '../components/home/home' //Import the component file
 
 const HomeScreen = ({ navigation }) => (
-  <View style={styles.container}>
-    <Home />
-  </View>
+
+  <Home
+   	navigation={navigation}
+  />
+
 );
 
 HomeScreen.propTypes = {
@@ -16,12 +18,5 @@ HomeScreen.propTypes = {
 HomeScreen.navigationOptions = {
   title: 'Home',
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FF44'
-  },
-});
 
 export default HomeScreen;

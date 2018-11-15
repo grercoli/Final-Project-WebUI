@@ -7,9 +7,11 @@ import {
     View,
     Text,
     ActivityIndicator,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Moment from 'moment';
 
 const Timeline = props => {
 	
@@ -20,15 +22,19 @@ const Timeline = props => {
 		//If there is a picture save it in tweetMedia, to render it later on
 		tweetMedia = props.tweet.entities.media.map(picture => {
         	return (
-            	<Image
-                	source={{uri: picture.media_url}}
-                	key={picture.id}
-                	style={styles.tweetPicture}
-            	/>
+                <View style={styles.tweetMedia}>
+                	<Image
+                    	source={{uri: picture.media_url}}
+                    	key={picture.id}
+                    	style={styles.tweetPicture}
+                	/>
+                </View>
         	)
     	})
 	}
 
+    Moment.locale('en');
+    let tweetDate = Moment(props.tweet.created_at);
     return (
     	<View style={styles.row}>
             <View style={styles.userPictureContainer}>
@@ -38,9 +44,12 @@ const Timeline = props => {
                 />
             </View>
 	        <View style={styles.tweetContainer}>
-	            <View>
+	            <TouchableOpacity
+                    onPress={() => props.navigation.dispatch({type: 'Tweet', payload: props.tweet})}
+                >
+                <View>
 	                <Text style={styles.tweetUsername}>
-	                    {props.tweet.user.name} <Text style={styles.tweetUsernameInfo}>@{props.tweet.user.screen_name} </Text>
+	                    {props.tweet.user.name} <Text style={styles.tweetUsernameInfo}>@{props.tweet.user.screen_name} - {Moment().diff(Moment(tweetDate), 'minutes')}min</Text>
 	                </Text>
 	        	</View>
 	            <View>
@@ -48,9 +57,10 @@ const Timeline = props => {
 	        	        {props.tweet.text}
 	                </Text>
 	            </View>
-	            <View style={styles.tweetMedia}>
-	                {tweetMedia}                                            
-	            </View>
+                </TouchableOpacity>
+	            
+	            {tweetMedia}                                            
+	            
 	            <View style={styles.socialIconsContainer}>
 	            	<View style={styles.socialIcon}>
 	            		<Ionicons name='md-heart' size={25} color='#000' />
@@ -88,7 +98,7 @@ const styles = StyleSheet.create({
     userProfileImage: {
     	height: 40,
     	borderRadius: 60,
-    	resizeMode: 'contain', 
+    	resizeMode: 'contain',
     },
 
     tweetContainer: {
