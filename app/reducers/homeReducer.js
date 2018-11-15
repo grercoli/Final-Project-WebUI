@@ -1,4 +1,4 @@
-import { GET_TWEETS, GET_MORETWEETS, REFRESH_TIMELINE } from "../actions/types" //Import the actions types constant we defined in our actions
+import { GET_TWEETS, GET_MORETWEETS, REFRESH_TIMELINE, GET_TIMELINE, CHECK_FILTER } from "../actions/types" //Import the actions types constant we defined in our actions
  
 let dataState = { 
     data: [], 
@@ -31,6 +31,10 @@ export default function(state = dataState, action) {
                 data: action.payload,
                 page: 1,
                 seed: state.seed + 1
+            }
+        case CHECK_FILTER:
+            return{
+                ...state,
             }
         default:
             return state;
