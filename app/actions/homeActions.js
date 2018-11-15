@@ -1,14 +1,14 @@
-import {GET_TIMELINE} from './types';
-//http://192.168.0.229:8080
+import {GET_TWEETS, GET_MORETWEETS, REFRESH_TIMELINE, GET_TIMELINE} from './types';
+
 const ip = 'http://192.168.0.229:8080'; //192.168.0.229
 
-export const getTweetsTimeline = () => {
+export const getTweetsTimeline = (page, seed) => {
   return (dispatch) => {
-    fetch(`${ip}/timeline?count=50`)
+    fetch(`${ip}/timeline?count=20&seed=${seed}&page=${page}`)
       .then((response) => response.json())
       .then((responseJson) => {
         dispatch({
-          type: GET_TIMELINE,
+          type: GET_TWEETS,
           payload: responseJson
         })
       })
@@ -18,3 +18,18 @@ export const getTweetsTimeline = () => {
   }
 }
 
+export const getMoreTweets = (page) => {
+  return (dispatch) => {
+    fetch(`${ip}/timeline?count=20&page=${page}`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        dispatch({
+          type: GET_MORETWEETS,
+          payload: responseJson
+        })
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+  }
+}

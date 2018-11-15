@@ -27,12 +27,17 @@ class Home extends Component {
                 NotTruncated:false
             }
         };
-
+        
         this.renderItem = this.renderItem.bind(this);
+        this.handleEnd = this.handleEnd.bind(this);
     }
     
     componentDidMount() {
-        this.props.getTweetsTimeline(); //call our action
+        this.props.getTweetsTimeline(this.props.page, this.props.seed); //call our action
+    }
+
+    handleRefresh() {
+        this.props.getTweetsTimeline(this.props.page, this.props.seed);
     }
 
     render() {
@@ -44,39 +49,53 @@ class Home extends Component {
             );
         } else {
             return (
-                <View style={{flex:1, backgroundColor: '#F5F5F5', paddingTop:20}}>
+                <View style={styles.container}>
                     <FlatList
                         ref='listRef'
                         data={this.props.data}
+                        onEndReached={this.handleEnd}
+                        onEndReachedThreshold={0}
                         renderItem={this.renderItem}
-                        keyExtractor={(item, index) => index.toString()}/>
+                        keyExtractor={(item, index) => index.toString()}
+                        refreshing={this.props.refreshing}
+                        onRefresh={this.handleRefresh}
+                    />
                 </View>
             );
         }
     }
 
-    renderItem({item}) {
-        
-            if (
-                
-                (!this.state.filter.NotVerified == item.user.verified)  
-                    && 
-                (this.state.filter.NotFollow == item.user.following) 
-                    && 
-                (!this.state.filter.NotDefaultProfile == item.user.default_profile) 
-                    &&
-                (!this.state.filter.NotLink == (item.url.lenght > 0)) 
-                    && 
-                (!this.state.filter.NotTruncated == item.truncated)
+    handleEnd() {
+        this.props.getTweetsTimeline(this.props.page);
+    }
 
-                )
-            {
-                return (
-                    <Timeline tweet={item} />
-                )
-            }
-            
+    renderItem({item}) {
+        return (
+            <Timeline 
+                tweet={item}
+                navigation={this.props.navigation} 
+            />
+        )
         
+        if (
+                
+          (!this.state.filter.NotVerified == item.user.verified)  
+            && 
+          (this.state.filter.NotFollow == item.user.following) 
+            && 
+          (!this.state.filter.NotDefaultProfile == item.user.default_profile) 
+            &&
+          (!this.state.filter.NotLink == (item.url.lenght > 0)) 
+            && 
+          (!this.state.filter.NotTruncated == item.truncated)
+
+         )
+         {
+           return (
+             <Timeline tweet={item} />
+           )
+         }
+            
     }
 };
 
@@ -86,7 +105,10 @@ class Home extends Component {
 function mapStateToProps(state, props) {
     return {
         loading: state.homeReducer.loading,
-        data: state.homeReducer.data
+        data: state.homeReducer.data,
+        refreshing: state.homeReducer.refreshing,
+        seed: state.homeReducer.seed,
+        page: state.homeReducer.page,
     }
 }
 
@@ -107,4 +129,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
     },
+    container: {
+        flex: 1,
+        backgroundColor: '#FFF',
+        paddingTop:10,
+  },
 });
