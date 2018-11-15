@@ -1,1 +1,3 @@
-export const GET_TIMELINE = 'GET_TIMELINE';
+export const GET_TWEETS = 'GET_TWEETS';
+export const GET_MORETWEETS = 'GET_MORETWEETS';
+export const REFRESH_TIMELINE = 'REFRESH_TIMELINE';

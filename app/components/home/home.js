@@ -21,12 +21,17 @@ class Home extends Component {
         this.state = {
         
         };
-
+        
         this.renderItem = this.renderItem.bind(this);
+        this.handleEnd = this.handleEnd.bind(this);
     }
     
     componentDidMount() {
-        this.props.getTweetsTimeline(); //call our action
+        this.props.getTweetsTimeline(this.props.page, this.props.seed); //call our action
+    }
+
+    handleRefresh() {
+        this.props.getTweetsTimeline(this.props.page, this.props.seed);
     }
 
     render() {
@@ -38,20 +43,32 @@ class Home extends Component {
             );
         } else {
             return (
-                <View style={{flex:1, backgroundColor: '#F5F5F5', paddingTop:20}}>
+                <View style={styles.container}>
                     <FlatList
                         ref='listRef'
                         data={this.props.data}
+                        onEndReached={this.handleEnd}
+                        onEndReachedThreshold={0}
                         renderItem={this.renderItem}
-                        keyExtractor={(item, index) => index.toString()}/>
+                        keyExtractor={(item, index) => index.toString()}
+                        refreshing={this.props.refreshing}
+                        onRefresh={this.handleRefresh}
+                    />
                 </View>
             );
         }
     }
 
+    handleEnd() {
+        this.props.getTweetsTimeline(this.props.page);
+    }
+
     renderItem({item}) {
         return (
-            <Timeline tweet={item} />
+            <Timeline 
+                tweet={item}
+                navigation={this.props.navigation} 
+            />
         )
     }
 };
@@ -62,7 +79,10 @@ class Home extends Component {
 function mapStateToProps(state, props) {
     return {
         loading: state.homeReducer.loading,
-        data: state.homeReducer.data
+        data: state.homeReducer.data,
+        refreshing: state.homeReducer.refreshing,
+        seed: state.homeReducer.seed,
+        page: state.homeReducer.page,
     }
 }
 
@@ -83,4 +103,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
     },
+    container: {
+        flex: 1,
+        backgroundColor: '#FFF',
+        paddingTop:10,
+  },
 });
