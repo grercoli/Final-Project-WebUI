@@ -1,8 +1,8 @@
 import HomeScreen from '../screens/HomeScreen'
-import CategoriesScreen from '../screens/categoriesScreen'
+import TweetScreen from '../screens/TweetScreen'
 
 const Routes ={
     Home: { screen: HomeScreen },
-    Categories: { screen: CategoriesScreen}
+    Tweet: { screen: TweetScreen}
 };
 export default Routes;
